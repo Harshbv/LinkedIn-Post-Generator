@@ -34,6 +34,7 @@ LinkedIn-Post-Generator/
 ├─ requirements.txt           # Python dependencies
 ├─ .gitignore                 # Files and folders ignored by Git
 └─ .env                       # ⚠️ NOT in Git – stores your API key locally
+```
 ⚙️ Setup
 1. Clone the repository
 bash
