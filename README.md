@@ -99,3 +99,12 @@ Add your own LinkedIn posts to better match your voice.
 post_generator.py
 
 Adjust temperature, max tokens, or formatting of the final output.
+### 🛠 Technologies Used
+
+- **Python** – Core language used to build all the scripts and business logic.
+- **LangChain & `langchain_groq`** – For structuring prompts and talking to the Groq LLM in a clean, modular way.
+- **Groq LLM API** – Backend large language model that actually generates the LinkedIn-style posts.
+- **pandas** – For loading, cleaning, and working with the example post datasets in `data/`.
+- **python-dotenv** – To securely load the `GROQ_API_KEY` from a local `.env` file instead of hard-coding secrets.
+- **JSON datasets** – Used to store real/processed LinkedIn posts that guide the model toward a more realistic style.
+
