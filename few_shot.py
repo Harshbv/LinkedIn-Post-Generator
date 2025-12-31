@@ -1,8 +1,10 @@
 import json
 import pandas as pd
+
+
 class FewShotPosts:
     def __init__(self, file_path="data/processed_posts.json"):
-        self.df= None
+        self.df = None
         self.unique_tags = None
         self.load_posts(file_path)
 
@@ -14,11 +16,10 @@ class FewShotPosts:
             all_tags = self.df["tags"].apply(lambda x: x).sum()
             self.unique_tags = set(list(all_tags))
 
-
     def categorize_length(self, line_count):
         if line_count < 5:
             return "Short"
-        elif 5<= line_count <= 10:
+        elif 5 <= line_count <= 10:
             return "Medium"
         else:
             return "Long"
@@ -27,18 +28,18 @@ class FewShotPosts:
         return self.unique_tags
 
     def get_filtered_posts(self, length, language, tag):
-         df_filtered =self.df[
-            (self.df['language'] == language) &
-            (self.df['length'] == length) &
-            (self.df['tags'].apply(lambda tags: tag in tags))
+        """
+        Return example posts for few-shot prompting.
 
-        ]
-         return df_filtered.to_dict(orient="records")
-
+        We mainly filter by tag (topic) so that we always have some examples,
+        regardless of exact length/language.
+        """
+        df_filtered = self.df[self.df["tags"].apply(lambda tag_list: tag in tag_list)]
+        return df_filtered.to_dict(orient="records")
 
 
 if __name__ == "__main__":
-    fs =  FewShotPosts()
+    fs = FewShotPosts()
     posts = fs.get_filtered_posts("Long", "English", "Job Search")
     for post in posts:
         print(post["text"])
