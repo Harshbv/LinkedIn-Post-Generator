@@ -1,9 +1,11 @@
 # LinkedIn Post Generator
 
-An AI-powered tool that helps you create LinkedIn posts in a natural, human-like writing style.  
-You give it a topic (and optionally tone, length, and language), and it generates a polished LinkedIn post for you.
+An AI-powered tool that helps you create LinkedIn posts in a **natural, human-like writing style**.
+
+You give it a topic (and optionally tone, length, language, and target audience), and it generates a polished LinkedIn post for you.
 
 This is useful for:
+
 - Students who want to post about projects, internships, or achievements  
 - Professionals who want to stay active on LinkedIn without spending 30+ minutes per post  
 - Creators/influencers who want consistent, on-brand content quickly  
@@ -12,9 +14,13 @@ This is useful for:
 
 ## ✨ Features
 
-- 🧠 AI-generated posts that mimic human writing style  
-- 🎯 Control over topic, language, and length (short/medium/long)  
-- 📚 Uses few-shot examples + a dataset of real posts for better, more realistic output  
+- 🧠 AI-generated posts that mimic real LinkedIn writing style  
+- 🎯 Control over **topic, language, and length** (short / medium / long)  
+- 🎭 Control over **tone** (Professional, Casual, Motivational, Funny)  
+- 👥 Optional **target audience** field to tailor the post (e.g. “fresh graduates”, “hiring managers”, “Gen Z devs”)  
+- 📚 Uses few-shot examples + a dataset of real posts for more realistic output  
+- 🌐 Modern **Streamlit web UI** with a dark / orange theme  
+- 📋 Copy-friendly output (code block) + **Download as `.txt`** for quick posting  
 - 🔐 Uses a local `.env` file to keep your API key safe (not committed to GitHub)  
 
 ---
@@ -26,15 +32,14 @@ LinkedIn-Post-Generator/
 ├─ data/
 │  ├─ raw_posts.json          # Original example posts
 │  └─ processed_posts.json    # Cleaned/processed posts used for generation
-├─ few_shot.py                # Few-shot examples / prompt templates
-├─ llm_helper.py              # Helper functions to call the LLM (Groq)
-├─ post_generator.py          # Core logic to build the final LinkedIn post
+├─ few_shot.py                # Few-shot helper: loads posts, tags, and examples
+├─ llm_helper.py              # Helper functions to call the Groq LLM via LangChain
+├─ post_generator.py          # Core logic to build prompts and generate the final LinkedIn post
 ├─ preprocess.py              # Preprocessing scripts for the dataset
-├─ main.py                    # Entry point to run the generator
+├─ main.py                    # Streamlit app entry point (UI)
 ├─ requirements.txt           # Python dependencies
 ├─ .gitignore                 # Files and folders ignored by Git
 └─ .env                       # ⚠️ NOT in Git – stores your API key locally
-```
 ⚙️ Setup
 1. Clone the repository
 bash
@@ -45,66 +50,119 @@ cd LinkedIn-Post-Generator
 bash
 Copy code
 python -m venv .venv
+Windows:
 
-# Windows
+bash
+Copy code
 .venv\Scripts\activate
+macOS / Linux:
 
-# macOS / Linux
+bash
+Copy code
 source .venv/bin/activate
 3. Install dependencies
 bash
 Copy code
 pip install -r requirements.txt
-🔑 Environment variables
+🔑 Environment Variables
 Create a file named .env in the project root (same folder as main.py) and add your API key:
 
-text
+env
 Copy code
 GROQ_API_KEY=your_api_key_here
-⚠️ Never commit .env to GitHub. It’s already added to .gitignore so it stays local and secret.
+⚠️ Never commit .env to GitHub.
+It’s already added to .gitignore so it stays local and secret.
 
 🚀 How to Run
 From the project root:
 
 bash
 Copy code
-python main.py
-The script will typically:
+streamlit run main.py
+This will:
 
-Ask you for:
+Start a local Streamlit server
 
-Topic (e.g. “my first internship”, “learning Python”, “hackathon experience”)
+Open the app in your browser (usually at http://localhost:8501)
 
-Desired length (short / medium / long)
+In the UI, you can:
 
-Language (e.g. English, Hindi, etc. if supported)
+Select a Title/Tag (e.g. “Job Search”, “Work Life Balance”, “Gen Z”)
 
-Call the LLM using the helper in llm_helper.py
+Choose Length: Short / Medium / Long
 
-Generate a LinkedIn-style post based on your inputs plus the examples in data/ and few_shot.py
+Choose Language: English / Hinglish
 
-Print the final post to the console for you to copy to LinkedIn
+Choose Tone: Professional / Casual / Motivational / Funny
+
+(Optionally) enter a Target audience:
+
+e.g. “fresh graduates”, “mid-level data scientists”, “hiring managers in SaaS”
+
+Then click Generate.
+
+The app will:
+
+Build a structured prompt based on your inputs
+
+Pull a few few-shot examples from processed_posts.json that match the tag
+
+Call the LLM via llm_helper.py
+
+Generate a LinkedIn-style post and display it in:
+
+A normal text section
+
+A copy-friendly code block
+
+A downloadable .txt file
 
 🧪 Customization
 You can tweak the behavior by editing:
 
 few_shot.py
+Change how examples are selected (e.g. filter by length/language or just tag)
 
-Change or add few-shot examples to adjust style and tone.
+Extend tags or logic if you add more data to processed_posts.json
 
 data/raw_posts.json & data/processed_posts.json
+Add your own LinkedIn posts to better match your writing style
 
-Add your own LinkedIn posts to better match your voice.
+Run preprocess.py to:
+
+Extract line counts
+
+Detect language (English / Hinglish)
+
+Normalize tags
 
 post_generator.py
+Adjust:
 
-Adjust temperature, max tokens, or formatting of the final output.
-### 🛠 Technologies Used
+Prompt wording
 
-- **Python** – Core language used to build all the scripts and business logic.
-- **LangChain & `langchain_groq`** – For structuring prompts and talking to the Groq LLM in a clean, modular way.
-- **Groq LLM API** – Backend large language model that actually generates the LinkedIn-style posts.
-- **pandas** – For loading, cleaning, and working with the example post datasets in `data/`.
-- **python-dotenv** – To securely load the `GROQ_API_KEY` from a local `.env` file instead of hard-coding secrets.
-- **JSON datasets** – Used to store real/processed LinkedIn posts that guide the model toward a more realistic style.
+How tone and target audience are used
 
+Number of few-shot examples included
+
+Add extra controls (e.g. temperature, max tokens) if desired
+
+main.py
+Tweak the UI layout and styling (Streamlit + custom CSS)
+
+Change available tones, tags, defaults, or colors
+
+🛠 Technologies Used
+Python – Core language used to build the app
+
+Streamlit – Frontend UI for interacting with the generator
+
+LangChain & langchain_groq – For structuring prompts and talking to the Groq LLM
+
+Groq LLM API – Backend large language model that generates LinkedIn-style posts
+
+pandas – For loading and transforming the example post datasets in data/
+
+python-dotenv – To securely load GROQ_API_KEY from a local .env file
+
+JSON datasets – To store and reuse real/processed LinkedIn posts for better style control
