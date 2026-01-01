@@ -40,13 +40,16 @@ LinkedIn-Post-Generator/
 ├─ requirements.txt           # Python dependencies
 ├─ .gitignore                 # Files and folders ignored by Git
 └─ .env                       # ⚠️ NOT in Git – stores your API key locally
+```
 ⚙️ Setup
 1. Clone the repository
 bash
 Copy code
+``` text
 git clone https://github.com/Harshbv/LinkedIn-Post-Generator.git
 cd LinkedIn-Post-Generator
-2. Create and activate a virtual environment (recommended)
+```
+3. Create and activate a virtual environment (recommended)
 bash
 Copy code
 python -m venv .venv
