@@ -96,11 +96,11 @@ In the UI, you can:
 
   (Optionally) enter a Target audience, e.g.
 
-    “fresh graduates”
+   “fresh graduates”
 
-    “mid-level data scientists”
+   “mid-level data scientists”
 
-    “hiring managers in SaaS”
+  “hiring managers in SaaS”
 
   Then click Generate.
 
